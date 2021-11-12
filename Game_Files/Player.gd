@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 # Declare member variables here. Examples:
-var moveSpeed : int = 250
+var moveSpeed : int = 10
 
 var vel : Vector2 = Vector2()
 var facingDir : Vector2 = Vector2()
@@ -36,4 +36,4 @@ func _physics_process (delta):
 	vel = vel.normalized()
 	facingDir = facingDir.normalized()
 	
-	move_and_slide(vel * moveSpeed)
+	move_and_slide(vel * moveSpeed * delta * 1000)
