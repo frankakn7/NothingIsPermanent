@@ -22,6 +22,8 @@ func changeDirection(velocityX, velocityY):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process (delta):
 	
+	vel = Vector2()
+	
 	if Input.is_action_pressed("move_up"):
 		changeDirection(0,-1);
 	if Input.is_action_pressed("move_down"):
@@ -31,7 +33,7 @@ func _physics_process (delta):
 	if Input.is_action_pressed("move_right"):
 		changeDirection(1,0)
 	
-	vel = vel.normalized()	
+	vel = vel.normalized()
 	facingDir = facingDir.normalized()
 	
 	move_and_slide(vel * moveSpeed)
