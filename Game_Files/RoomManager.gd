@@ -4,7 +4,9 @@ extends Node2D
 var room_scene = load("res://Room.tscn")
 var room_distance = 128
 
-var room_layout = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]]
+var room_layout = [	[1, 1, 1, 1], 
+					[1, 1, 1, 1], 
+					[1, 1, 1, 1] ]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,6 +27,8 @@ func _ready():
 			room_y_offset = (room_y_offset / 2) * room_instance.tile_pixel_width * room_instance.max_height
 			var room_y_pos = room_instance.max_height * y * room_instance.tile_pixel_width + (room_distance * y) - room_y_offset
 			room_instance.position += Vector2(room_x_pos, room_y_pos)
+			
+			room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [x, y]
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
