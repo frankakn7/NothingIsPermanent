@@ -14,13 +14,19 @@ var rooms = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	generateRooms()
+
+func generateNeighbourRooms():
+	pass
+
+func generateRooms():
 	for y in range(len(room_layout)):
 		rooms.append([])
 		for x in range(len(room_layout[y])):
 			var room_instance = room_scene.instance()
 			room_instance.set_name("Room_%d_%d" % [x, y])
 			add_child(room_instance)
+			room_instance.get_node("Area2D").connect("body_entered", self, "on_Enter")
 			var room_x_offset = len(room_layout[y])
 			if room_x_offset % 2 == 1:
 				room_x_offset = room_x_offset - 1
@@ -51,9 +57,9 @@ func _ready():
 			
 			room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [x, y]
 			rooms[y].append(room_instance)
-	
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func on_Enter(body):
+	print(body)
