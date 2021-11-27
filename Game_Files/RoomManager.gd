@@ -2,7 +2,8 @@ extends Node2D
 
 
 var room_scene = load("res://Room.tscn")
-var corridor_scene = load("res://Corridor.tscn")
+var corridor_hor_scene = load("res://CorridorHorizontal.tscn")
+var corridor_ver_scene = load("res://CorridorVertical.tscn")
 var room_distance = 128
 
 var room_layout = [	[1, 1, 1, 1], 
@@ -35,14 +36,14 @@ func _ready():
 			
 			# Horizontal Corridors
 			if x != 0:
-				var corridor_instance_h = corridor_scene.instance()
+				var corridor_instance_h = corridor_hor_scene.instance()
 				corridor_instance_h.set_name("Corridor_%d_%d_H" % [x, y])
 				add_child(corridor_instance_h)
 				corridor_instance_h.position = Vector2(room_instance.position.x - room_distance, room_instance.position.y + room_distance)
 			
 			# Vertical corridor isntance
 			if y != 0:
-				var corridor_instance_v = corridor_scene.instance()
+				var corridor_instance_v = corridor_ver_scene.instance()
 				corridor_instance_v.set_name("Corridor_%d_%d_V" % [x, y])
 				add_child(corridor_instance_v)
 				corridor_instance_v.position = Vector2(room_instance.position.x + room_distance * 2 + (room_distance / 2), room_instance.position.y - room_distance)
