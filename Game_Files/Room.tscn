@@ -46,36 +46,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WallWest" type="StaticBody2D" parent="."]
-position = Vector2( -1.64769, -0.54924 )
+[node name="WallWestNorth" type="StaticBody2D" parent="."]
+position = Vector2( -2.20891, 1.13445 )
+scale = Vector2( 1, 0.32 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallWest"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallWestNorth"]
 position = Vector2( -8, 192 )
 scale = Vector2( 1, 1.04 )
 shape = SubResource( 2 )
 
-[node name="WallEast" type="StaticBody2D" parent="."]
-position = Vector2( 786.746, -1.09845 )
+[node name="WallWestSouth" type="StaticBody2D" parent="."]
+position = Vector2( -2.20891, 259.134 )
+scale = Vector2( 1, 0.32 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallEast"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallWestSouth"]
 position = Vector2( -8, 192 )
 scale = Vector2( 1, 1.04 )
 shape = SubResource( 2 )
 
-[node name="WallSouth" type="StaticBody2D" parent="."]
-position = Vector2( 688, 384 )
-scale = Vector2( 38.1719, 0.0499903 )
+[node name="WallSouthEast" type="StaticBody2D" parent="."]
+position = Vector2( 734, 383 )
+scale = Vector2( 15.7719, 0.0499903 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallSouth"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallSouthEast"]
 position = Vector2( -8, 192 )
 scale = Vector2( 1, 1.04 )
 shape = SubResource( 2 )
 
-[node name="WallNorth" type="StaticBody2D" parent="."]
-position = Vector2( 692.155, -19.6062 )
-scale = Vector2( 38.1719, 0.0499903 )
+[node name="WallEastSouth" type="StaticBody2D" parent="."]
+position = Vector2( 784.791, 259.134 )
+scale = Vector2( 1, 0.32 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallNorth"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallEastSouth"]
+position = Vector2( -8, 192 )
+scale = Vector2( 1, 1.04 )
+shape = SubResource( 2 )
+
+[node name="WallEastNorth" type="StaticBody2D" parent="."]
+position = Vector2( 784.791, 1.13446 )
+scale = Vector2( 1, 0.32 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallEastNorth"]
+position = Vector2( -8, 192 )
+scale = Vector2( 1, 1.04 )
+shape = SubResource( 2 )
+
+[node name="WallSouthWest" type="StaticBody2D" parent="."]
+position = Vector2( 286, 383 )
+scale = Vector2( 15.7719, 0.0499903 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallSouthWest"]
+position = Vector2( -8, 192 )
+scale = Vector2( 1, 1.04 )
+shape = SubResource( 2 )
+
+[node name="WallNorthWest" type="StaticBody2D" parent="."]
+position = Vector2( 286, -18 )
+scale = Vector2( 15.7719, 0.0499903 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallNorthWest"]
+position = Vector2( -8, 192 )
+scale = Vector2( 1, 1.04 )
+shape = SubResource( 2 )
+
+[node name="WallNorthEast" type="StaticBody2D" parent="."]
+position = Vector2( 734, -18 )
+scale = Vector2( 15.7719, 0.0499903 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallNorthEast"]
 position = Vector2( -8, 192 )
 scale = Vector2( 1, 1.04 )
 shape = SubResource( 2 )

@@ -5,6 +5,13 @@ var tiles = []
 var max_width = 12
 var max_height = 6
 
+var neighbours = {
+	"north": null,
+	"west": null,
+	"east": null,
+	"south": null
+}
+
 onready var tilemap = $TileMap
 onready var ground_tile_id = 0
 # TODO: Find this out programmatically
