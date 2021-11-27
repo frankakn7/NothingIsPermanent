@@ -26,6 +26,7 @@ func _ready():
 			tiles[y].append(x)
 			tiles[y][x] = 1
 	_update_tilemap()
+	get_node("Area2D/CollisionShape2D").shape.extents = Vector2((max_width * tile_pixel_width) / 2, (max_height * tile_pixel_width) / 2)
 	
 func _update_tilemap():
 	for y in range(max_height):

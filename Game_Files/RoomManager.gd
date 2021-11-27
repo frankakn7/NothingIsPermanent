@@ -14,9 +14,7 @@ var rooms = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	generateRooms()
-
-func generateRooms():
+	
 	for y in range(len(room_layout)):
 		rooms.append([])
 		for x in range(len(room_layout[y])):
@@ -53,6 +51,9 @@ func generateRooms():
 			
 			room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [x, y]
 			rooms[y].append(room_instance)
+	
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
