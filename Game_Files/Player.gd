@@ -2,11 +2,14 @@ extends KinematicBody2D
 
 
 # Declare member variables here. Examples:
-var moveSpeed : int = 10
+var movement_speed_forward : int = 10
+var movement_speed_strive : int = 5
+var movement_speed_backward : int = 5
+var rotation_speed : int = 3
 
 var vel : Vector2 = Vector2()
 var facingDir : Vector2 = Vector2()
-
+var rotation_dir : int = 0
 
 func _ready():
 	pass # Replace with function body.
@@ -23,17 +26,24 @@ func changeDirection(velocityX, velocityY):
 func _physics_process (delta):
 	
 	vel = Vector2()
-	
-	if Input.is_action_pressed("move_up"):
-		changeDirection(0,-1);
-	if Input.is_action_pressed("move_down"):
-		changeDirection(0,1)
-	if Input.is_action_pressed("move_left"):
-		changeDirection(-1,0)
+	rotation_dir = 0
+		
+	if Input.is_action_pressed("move_forward"):
+		vel += Vector2(movement_speed_forward, 0).rotated(rotation)
+	if Input.is_action_pressed("move_back"):
+		vel += Vector2(- movement_speed_backward, 0).rotated(rotation)
 	if Input.is_action_pressed("move_right"):
-		changeDirection(1,0)
+		vel += Vector2(0, movement_speed_strive).rotated(rotation)
+	if Input.is_action_pressed("move_left"):
+		vel += Vector2(0, - movement_speed_strive).rotated(rotation)
+	if Input.is_action_pressed("rotate_left"):
+		rotation_dir -= 1
+	if Input.is_action_pressed("rotate_right"):
+		rotation_dir += 1
+	
+	rotation += rotation_dir * rotation_speed * delta
 	
 	vel = vel.normalized()
 	facingDir = facingDir.normalized()
 	
-	move_and_slide(vel * moveSpeed * delta * 1000)
+	move_and_slide(vel * movement_speed_forward * delta * 1000)
