@@ -53,19 +53,31 @@ func generateRoom(offsetVector, parentPosition, parentId):
 	add_child(room_instance)
 	room_instance.id = room_id
 	#offset to parent center
-	var offset_to_parent_X = offsetVector.x * (room_instance.tile_pixel_width * room_instance.max_width + room_distance) 
-	var offset_to_parent_Y = offsetVector.y * (room_instance.tile_pixel_width * room_instance.max_height + room_distance)
+	var room_width = room_instance.tile_pixel_width * room_instance.max_width
+	var room_height = room_instance.tile_pixel_width * room_instance.max_height
+	var offset_to_parent_X = offsetVector.x * (room_width + room_distance) 
+	var offset_to_parent_Y = offsetVector.y * (room_height + room_distance)
 	#offset to self room center (to go from center to top left corner)
 	var offset_to_room_center_X = (room_instance.tile_pixel_width * room_instance.max_width) / 2
 	var offset_to_room_center_Y = (room_instance.tile_pixel_width * room_instance.max_height) / 2
 	room_instance.global_position = Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y)
 	room_instance.connect("player_entered", self, "on_Enter")
 
-func generateCorridor(roomPos, side):
-	
+func generateCorridor(roomPos, side, roomWidth, roomHeight):
+	#1/2 of room width + distance 1/2
+	var offsetX = side.x * ((roomWidth / 2) + room_distance / 2)
+	var offsetY = side.y * ((roomHeight / 2) + room_distance / 2)
+	var roomCenter = Vector2(roomPos.x + roomWidth / 2, roomPos.y + roomHeight / 2)
+	var corridor = corridor_hor_scene.instance()
+	add_child(corridor)
+	corridor.position = Vector2(roomCenter.x + offsetX, roomCenter.y + offsetY)
+	corridor.rotation = side.angle()
 
-func generateCorridors(roomPos, side):
-	pass
+func generateCorridors(roomPos, roomWidth, roomHeight):
+	generateCorridor(roomPos, Vector2(-1,0), roomWidth, roomHeight)
+	generateCorridor(roomPos, Vector2(0,-1), roomWidth, roomHeight)
+	generateCorridor(roomPos, Vector2(1,0), roomWidth, roomHeight)
+	generateCorridor(roomPos, Vector2(0,1), roomWidth, roomHeight)
 	
 
 func generateStartRoom(id):
@@ -73,10 +85,13 @@ func generateStartRoom(id):
 	room_instance.set_name("Room_%d_%d" % [id.x,id.y])
 	add_child(room_instance)
 	room_instance.id = id
-	var offsetX = (room_instance.tile_pixel_width * room_instance.max_width) / 2
-	var offsetY = (room_instance.tile_pixel_width * room_instance.max_height) / 2
+	var room_width = room_instance.tile_pixel_width * room_instance.max_width
+	var room_height = room_instance.tile_pixel_width * room_instance.max_height
+	var offsetX = (room_width) / 2
+	var offsetY = (room_height) / 2
 	room_instance.global_position = Vector2(0 - offsetX, 0 - offsetY)
 	room_instance.connect("player_entered", self, "on_Enter")
+	generateCorridors(room_instance.position, room_width, room_height)
 
 func on_Enter(id, roomPos):
 	print(id)
