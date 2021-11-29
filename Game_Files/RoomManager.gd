@@ -64,6 +64,19 @@ func generateRooms():
 #func _process(delta):
 #	pass
 
+func generateRoom(offsetVector, parentPosition, parentId):
+	var room_id = parentId - offsetVector
+	var room_instance = room_scene.instance()
+	room_instance.set_name("Room_%d_%d" % [room_id.x,room_id.y])
+	add_child(room_instance)
+	room_instance.id = room_id
+	var offset_to_parent_X = offsetVector.x * (room_instance.tile_pixel_width * room_instance.max_width + room_distance) 
+	var offset_to_parent_Y = offsetVector.y * (room_instance.tile_pixel_width * room_instance.max_height + room_distance)
+	var offset_to_room_center_X = (room_instance.tile_pixel_width * room_instance.max_width) / 2
+	var offset_to_room_center_Y = (room_instance.tile_pixel_width * room_instance.max_height) / 2
+	room_instance.global_position = Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y)
+	room_instance.connect("player_entered", self, "on_Enter")
+
 func generateStartRoom(id):
 	var room_instance = room_scene.instance()
 	room_instance.set_name("Room_%d_%d" % [id.x,id.y])
@@ -72,6 +85,8 @@ func generateStartRoom(id):
 	var offsetX = (room_instance.tile_pixel_width * room_instance.max_width) / 2
 	var offsetY = (room_instance.tile_pixel_width * room_instance.max_height) / 2
 	room_instance.global_position = Vector2(0 - offsetX, 0 - offsetY)
+	room_instance.connect("player_entered", self, "on_Enter")
 
-func on_Enter(id):
+func on_Enter(id, roomPos):
 	print(id)
+	generateRoom(Vector2(0,1), roomPos, id)

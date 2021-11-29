@@ -14,7 +14,7 @@ var neighbours = {
 	"south": null
 }
 
-signal player_entered(roomID)
+signal player_entered(roomID, roomPosition)
 
 onready var tilemap = $TileMap
 onready var ground_tile_id = 0
@@ -41,7 +41,7 @@ func _update_tilemap():
 
 func body_entered(body):
 	if body.is_in_group("playerControlled"):
-		emit_signal("player_entered", self.id)
+		emit_signal("player_entered", self.id, self.global_position)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
