@@ -43,7 +43,8 @@ func generateRoom(offsetVector, parentPosition, parentId):
 	var offset_to_room_center_X = (room_instance.tile_pixel_width * room_instance.max_width) / 2
 	var offset_to_room_center_Y = (room_instance.tile_pixel_width * room_instance.max_height) / 2
 	room_instance.global_position = Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y)
-	generateCorridors(room_instance.global_position, room_width, room_height, [offsetVector])
+	print("(%d,%d) didnt generate corridor" % [room_id.x, room_id.y], offsetVector)
+	generateCorridors(room_instance.global_position, room_width, room_height, [- offsetVector])
 	room_instance.connect("player_entered", self, "on_Enter")
 	room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [room_id.x, room_id.y]
 
@@ -82,7 +83,7 @@ func generateStartRoom(id):
 	room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [id.x, id.y]
 
 func on_Enter(id, roomPos):
-	print(rooms)
+	#print(rooms)
 	generateRoom(Vector2(0,1), roomPos, id)
 	generateRoom(Vector2(1,0), roomPos, id)
 	generateRoom(Vector2(-1,0), roomPos, id)
