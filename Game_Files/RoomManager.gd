@@ -6,9 +6,9 @@ var corridor_hor_scene = load("res://CorridorHorizontal.tscn")
 var corridor_ver_scene = load("res://CorridorVertical.tscn")
 var room_distance = 128
 
-var room_layout = [	[1, 1, 1, 1], 
-					[1, 1, 2, 1], 
-					[1, 1, 1, 1] ]
+var room_layout = [	[1, 0, 1, 1], 
+					[1, 1, 2, 0], 
+					[1, 0, 1, 1] ]
 					
 var rooms = []
 var corridors = []
@@ -30,6 +30,8 @@ func generateNeighbourRooms(id, roomPos):
 
 func generateRoom(offsetVector, parentPosition, parentId):
 	var room_id = parentId + offsetVector
+	if not checkRoomExistence(room_id):
+		return
 	if !(room_id in neededRooms):
 		neededRooms.append(room_id)
 	if room_id in rooms:
@@ -49,9 +51,19 @@ func generateRoom(offsetVector, parentPosition, parentId):
 	var offset_to_room_center_Y = (room_instance.tile_pixel_width * room_instance.max_height) / 2
 	room_instance.global_position = Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y)
 	#print("(%d,%d) didnt generate corridor" % [room_id.x, room_id.y], offsetVector)
-	generateCorridors(room_id, room_instance.global_position, room_width, room_height, [- offsetVector])
+	var corridorExceptions = [- offsetVector]
+	generateCorridors(room_id, room_instance.global_position, room_width, room_height, corridorExceptions)
 	room_instance.connect("player_entered", self, "on_Enter")
 	room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [room_id.x, room_id.y]
+
+func checkRoomExistence(roomId):
+	if roomId.x < 0 or roomId.y < 0:
+		return false
+	elif roomId.y < room_layout.size() and roomId.x < room_layout[0].size() and room_layout[roomId.y][roomId.x] != 0:
+		return true
+	else:
+		return false
+		
 
 func generateCorridor(roomId, roomPos, side, roomWidth, roomHeight):
 	#1/2 of room width + distance 1/2
@@ -62,6 +74,8 @@ func generateCorridor(roomId, roomPos, side, roomWidth, roomHeight):
 	for id in corridors:
 		if regex.search(id):
 			return
+	if not checkRoomExistence(roomId + side):
+		return
 	var offsetX = side.x * ((roomWidth / 2) + room_distance / 2)
 	var offsetY = side.y * ((roomHeight / 2) + room_distance / 2)
 	var roomCenter = Vector2(roomPos.x + roomWidth / 2, roomPos.y + roomHeight / 2)
