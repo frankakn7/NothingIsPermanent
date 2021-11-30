@@ -55,11 +55,17 @@ func generateRoom(offsetVector, parentPosition, parentId):
 
 func generateCorridor(roomId, roomPos, side, roomWidth, roomHeight):
 	#1/2 of room width + distance 1/2
+	var idString = "({fromX},{fromY})-({toX},{toY})".format({"fromX":roomId.x,"fromY":roomId.y, "toX":roomId.x + side.x, "toY":roomId.y + side.y})
+	var regexString = "(?=.*\\({fromX},{fromY}\\))(?=.*\\({toX},{toY}\\)).*".format({"fromX":roomId.x,"fromY":roomId.y, "toX":roomId.x + side.x, "toY":roomId.y + side.y})
+	var regex = RegEx.new()
+	regex.compile(regexString)
+	for id in corridors:
+		if regex.search(id):
+			return
 	var offsetX = side.x * ((roomWidth / 2) + room_distance / 2)
 	var offsetY = side.y * ((roomHeight / 2) + room_distance / 2)
 	var roomCenter = Vector2(roomPos.x + roomWidth / 2, roomPos.y + roomHeight / 2)
 	var corridor = corridor_hor_scene.instance()
-	var idString = "({fromX},{fromY})-({toX},{toY})".format({"fromX":roomId.x,"fromY":roomId.y, "toX":roomId.x + side.x, "toY":roomId.y + side.y})
 	corridor.set_name(idString)
 	add_child(corridor)
 	corridors.append(idString)
