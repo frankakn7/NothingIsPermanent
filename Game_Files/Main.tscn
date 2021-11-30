@@ -6,7 +6,6 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 517, 272 )
 
 [node name="RoomManager" type="Node2D" parent="."]
 position = Vector2( 128, 128 )
