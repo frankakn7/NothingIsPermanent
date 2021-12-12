@@ -33,6 +33,7 @@ func _ready():
 	get_node("Area2D/CollisionShape2D").shape.extents = Vector2((max_width * tile_pixel_width) / 2, (max_height * tile_pixel_width) / 2)
 	get_node("Area2D").connect("body_entered", self, "body_entered")
 	
+	
 func _update_tilemap():
 	for y in range(max_height):
 		for x in range(max_width):

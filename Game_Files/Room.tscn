@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/tiles/base_tile.png" type="Texture" id=1]
 [ext_resource path="res://Room.gd" type="Script" id=2]
@@ -23,6 +23,11 @@
 extents = Vector2( 10, 184 )
 
 [sub_resource type="RectangleShape2D" id=3]
+
+[sub_resource type="NavigationPolygon" id=4]
+vertices = PoolVector2Array( 2.27213, 4.60266, 766.274, 2.91179, 765.215, 382.2, 2.4012, 382.2 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 2.4012, 382.2, 765.215, 382.2, 766.274, 2.91179, 2.27213, 4.60266 ) ]
 
 [node name="Room" type="Node2D"]
 script = ExtResource( 2 )
@@ -125,3 +130,6 @@ position = Vector2( 380.049, 191.426 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="."]
+navpoly = SubResource( 4 )
