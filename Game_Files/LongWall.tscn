@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="OccluderPolygon2D" id=1]
+polygon = PoolVector2Array( 0, -10, 0, 10, 320, 10, 320, -10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 160, 10 )
+
+[node name="LongWall" type="StaticBody2D"]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 160, 0 )
+shape = SubResource( 2 )
