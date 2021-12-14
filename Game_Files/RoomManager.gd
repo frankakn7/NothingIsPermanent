@@ -3,7 +3,8 @@ extends Node2D
 
 var room_scene = load("res://Room.tscn")
 var corridor_hor_scene = load("res://CorridorHorizontal.tscn")
-var corridor_ver_scene = load("res://CorridorVertical.tscn")
+#var corridor_ver_scene = load("res://CorridorVertical.tscn")
+var short_wall_scene = load("res://ShortWall.tscn")
 var room_distance = 128
 
 var room_layout = [	[1, 0, 1, 1], 
@@ -17,6 +18,7 @@ var neededRooms = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	self.global_position = Vector2(0,0)
 	generateRooms()
 
 func generateRooms():
@@ -37,8 +39,8 @@ func generateRoom(offsetVector, parentPosition, parentId):
 	if room_id in rooms:
 		return			#Room already exists
 	var room_instance = room_scene.instance()
+	#add_child(room_instance)
 	room_instance.set_name("Room_%d_%d" % [room_id.x,room_id.y])
-	add_child(room_instance)
 	rooms.append(room_id)
 	room_instance.id = room_id
 	#offset to parent center
@@ -49,12 +51,13 @@ func generateRoom(offsetVector, parentPosition, parentId):
 	#offset to self room center (to go from center to top left corner)
 	var offset_to_room_center_X = (room_instance.tile_pixel_width * room_instance.max_width) / 2
 	var offset_to_room_center_Y = (room_instance.tile_pixel_width * room_instance.max_height) / 2
-	room_instance.global_position = Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y)
+	room_instance.set_global_position(Vector2(parentPosition.x + offset_to_room_center_X, parentPosition.y + offset_to_room_center_Y)  + Vector2(offset_to_parent_X - offset_to_room_center_X, offset_to_parent_Y - offset_to_room_center_Y))
 	#print("(%d,%d) didnt generate corridor" % [room_id.x, room_id.y], offsetVector)
 	var corridorExceptions = [- offsetVector]
-	generateCorridors(room_id, room_instance.global_position, room_width, room_height, corridorExceptions)
 	room_instance.connect("player_entered", self, "on_Enter")
 	room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [room_id.x, room_id.y]
+	call_deferred("add_child",room_instance)
+	generateCorridors(room_id, room_instance.global_position, room_width, room_height, corridorExceptions)
 
 func checkRoomExistence(roomId):
 	if roomId.x < 0 or roomId.y < 0:
@@ -74,17 +77,31 @@ func generateCorridor(roomId, roomPos, side, roomWidth, roomHeight):
 	for id in corridors:
 		if regex.search(id):
 			return
-	if not checkRoomExistence(roomId + side):
-		return
-	var offsetX = side.x * ((roomWidth / 2) + room_distance / 2)
-	var offsetY = side.y * ((roomHeight / 2) + room_distance / 2)
+	
 	var roomCenter = Vector2(roomPos.x + roomWidth / 2, roomPos.y + roomHeight / 2)
-	var corridor = corridor_hor_scene.instance()
+	
+	var corridor = null
+	var offsetX = 0
+	var offsetY = 0
+	var rot = 0
+	
+	if not checkRoomExistence(roomId + side):		#if the room the corridor leads to doesnt exist
+		offsetX = side.x * ((roomWidth / 2) + 10)
+		offsetY = side.y * ((roomHeight / 2) + 10)
+		corridor = short_wall_scene.instance()
+		rot = side.angle() - PI / 2
+	else:
+		offsetX = side.x * ((roomWidth / 2) + room_distance / 2)
+		offsetY = side.y * ((roomHeight / 2) + room_distance / 2)
+		corridor = corridor_hor_scene.instance()
+		rot = side.angle()
+	#add_child(corridor)
+		
 	corridor.set_name(idString)
-	add_child(corridor)
 	corridors.append(idString)
-	corridor.global_position = Vector2(roomCenter.x + offsetX, roomCenter.y + offsetY)
-	corridor.global_rotation = side.angle()
+	corridor.set_global_position(Vector2(roomCenter.x + offsetX, roomCenter.y + offsetY))
+	corridor.set_global_rotation(rot)
+	call_deferred("add_child",corridor)
 
 func generateCorridors(roomId, roomPos, roomWidth, roomHeight, exceptSides=[]):
 	var sides = [Vector2(-1,0), Vector2(0,-1), Vector2(1,0), Vector2(0,1)]
@@ -97,8 +114,8 @@ func generateCorridors(roomId, roomPos, roomWidth, roomHeight, exceptSides=[]):
 
 func generateStartRoom(id):
 	var room_instance = room_scene.instance()
+	#add_child(room_instance)
 	room_instance.set_name("Room_%d_%d" % [id.x,id.y])
-	add_child(room_instance)
 	rooms.append(id)
 	neededRooms.append(id)
 	room_instance.id = id
@@ -106,10 +123,12 @@ func generateStartRoom(id):
 	var room_height = room_instance.tile_pixel_width * room_instance.max_height
 	var offsetX = (room_width) / 2
 	var offsetY = (room_height) / 2
-	room_instance.global_position = Vector2(0 - offsetX, 0 - offsetY)
+	room_instance.set_global_position(Vector2(0 - offsetX, 0 - offsetY))
 	room_instance.connect("player_entered", self, "on_Enter")
-	generateCorridors(id, room_instance.global_position, room_width, room_height)
 	room_instance.get_node("DebugControl/DebugRoomNB").text = "%d/%d" % [id.x, id.y]
+	call_deferred("add_child",room_instance)
+	print(room_instance.get_global_position())
+	generateCorridors(id, room_instance.global_position, room_width, room_height)
 
 func on_Enter(id, roomPos):
 	#print(rooms)

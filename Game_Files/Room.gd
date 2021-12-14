@@ -19,7 +19,7 @@ signal player_entered(roomID, roomPosition)
 onready var tilemap = $TileMap
 onready var ground_tile_id = 0
 # TODO: Find this out programmatically
-onready var tile_pixel_width = 64
+var tile_pixel_width = 64
 
 func _ready():
 	# Initialize the tiles

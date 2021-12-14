@@ -32,9 +32,9 @@ format = 1
 tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 0, 65535, 0, 0, 0, 0, 0 )
 
 [node name="ShortWall" parent="." instance=ExtResource( 2 )]
-position = Vector2( -64, -74 )
+position = Vector2( 0, -74 )
 scale = Vector2( 0.927, 1 )
 
 [node name="ShortWall2" parent="." instance=ExtResource( 2 )]
-position = Vector2( -64, 74 )
+position = Vector2( 0, 74 )
 scale = Vector2( 0.927, 1 )

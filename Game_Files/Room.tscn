@@ -58,29 +58,29 @@ position = Vector2( 380.049, 191.426 )
 shape = SubResource( 3 )
 
 [node name="Long" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, -10 )
+position = Vector2( 160, -10 )
 
 [node name="Long2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 448, -10 )
+position = Vector2( 608, -10 )
 
 [node name="Long3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 448, 394 )
+position = Vector2( 608, 394 )
 
 [node name="Long4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 394 )
+position = Vector2( 160, 394 )
 
 [node name="ShortWall" parent="." instance=ExtResource( 4 )]
-position = Vector2( -10, -10 )
+position = Vector2( -10, 59 )
 rotation = 1.5708
 
 [node name="ShortWall2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 778, 256 )
+position = Vector2( 778, 325 )
 rotation = 1.5708
 
 [node name="ShortWall3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 778, -10 )
+position = Vector2( 778, 59 )
 rotation = 1.5708
 
 [node name="ShortWall4" parent="." instance=ExtResource( 4 )]
-position = Vector2( -10, 256 )
+position = Vector2( -10, 325 )
 rotation = 1.5708
